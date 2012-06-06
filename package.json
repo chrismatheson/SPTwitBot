@@ -8,8 +8,4 @@
   "engines": {
     "node": "0.6.x"
   }
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/chrismatheson/SPTwitBot.git"
-  }
 }
