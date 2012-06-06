@@ -1,11 +1,11 @@
 {
-  "name": "roboWaiter",
-  "version": "0.0.1",
-  "dependencies": {
-    "express": "2.5.x",
-    "twitter": "0.1.x"
-  },
-  "engines": {
-    "node": "0.6.x"
-  }
+    "name": "roboWaiter",
+    "version": "0.0.1",
+    "dependencies": {
+        "express": ">=2.5.0",
+        "twitter": ">=0.1.18"
+    },
+    "engines": {
+        "node": ">=0.6.0"
+    }
 }
