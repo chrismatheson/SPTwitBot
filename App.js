@@ -24,31 +24,22 @@ var currentUserID = null;
 var messageQueue = null;
 
 var processQueue = function(data) {
-    if(typeof data == 'undefined'){
+    if(typeof data === 'undefined'){
         //start of queue
         data = new Object({});
     }
     
-    switch(typeof data)
-    {
-    case 'error':
-      if (data.statusCode != 200){
+    util.isError(data){
         console.error('error sending msg');
         console.error(util.inspect(data));
-        process.exit(1);
-      }
-      break;
-    default:
-      console.log(data.type);
-      // no data = start of queue so dont need to check respose data
-      if (messageQueue.length) {
-        // Bloody rate limit
-        twit.newDirectMessage(currentUserID, messageQueue.shift(), processQueue);  
-        console.log('now there are ' + messageQueue.length + ' messages left');
-      }
-      else {
-        messageQueue = null;
-      }
+        //process.exit(1);
+    }else{
+        // no data = start of queue so dont need to check respose data
+        if (messageQueue.length) {
+            // Bloody rate limit
+            twit.newDirectMessage(currentUserID, messageQueue.shift(), processQueue);  
+            //console.log('now there are ' + messageQueue.length + ' messages left');
+        }
     }
 };
 
@@ -58,30 +49,35 @@ var processQueue = function(data) {
 var date = new Date();
 twit.updateStatus('Starting Robo Waiter Twitter Bot \n\n'+date,function(){});
 
+process.on('exit', function() {
+    var date = new Date();
+    twit.updateStatus('Shutting down Robo Waiter Twitter Bot \n\n'+date,function(){});
+});
+
 twit.rateLimitStatus(function(data){
     if(!data.remaining_hits){
         console.error('Panic! : Account has been rate limited');
         console.error(util.inspect(data));
     }
-    console.log('Account has '+data.remaining_hits+' hits left.');
+    //console.log('Account has '+data.remaining_hits+' hits left.');
 });
 
-console.log('Menu has ' + menu.length + ' items');
+//console.log('Menu has ' + menu.length + ' items');
 /**
  * Debug code
- *
- * currentUserID = 35538233;
- * messageQueue = menu.slice(0); //copy array dont referance
- * console.log('Starting with ' + messageQueue.length + ' messages');
- * processQueue();
  */
+  currentUserID = 35538233;
+  messageQueue = menu.slice(0); //copy array dont referance
+  console.log('Starting with ' + messageQueue.length + ' messages');
+  processQueue();
+ 
 
 twit.stream('statuses/filter', {'track' : 'mathesonserver showmenu'}, function(stream) {
 	stream.on('data', function(data) {
         currentUserID = data.user.id;
         messageQueue = menu.slice(0); //copy array dont referance
         console.log('Menu requested by @'+data.user.screen_name);
-        console.log('Starting with ' + messageQueue.length + ' messages');
+        console.log('Sending ' + messageQueue.length + ' messages');
         processQueue();
     });
 });
