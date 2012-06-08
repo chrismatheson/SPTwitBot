@@ -65,12 +65,12 @@ twit.rateLimitStatus(function(data){
 //console.log('Menu has ' + menu.length + ' items');
 /**
  * Debug code
+ *
+ * currentUserID = 35538233;
+ * messageQueue = menu.slice(0); //copy array dont referance
+ * console.log('Starting with ' + messageQueue.length + ' messages');
+ * processQueue();
  */
-  currentUserID = 35538233;
-  messageQueue = menu.slice(0); //copy array dont referance
-  console.log('Starting with ' + messageQueue.length + ' messages');
-  processQueue();
- 
 
 twit.stream('statuses/filter', {'track' : 'mathesonserver showmenu'}, function(stream) {
 	stream.on('data', function(data) {
