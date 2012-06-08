@@ -1,1 +1,1 @@
-worker: node App.js
+worker: node RoboWaiter.js
