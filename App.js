@@ -29,7 +29,7 @@ var processQueue = function(data) {
         data = new Object({});
     }
     
-    util.isError(data){
+    if(util.isError(data)){
         console.error('error sending msg');
         console.error(util.inspect(data));
         //process.exit(1);
