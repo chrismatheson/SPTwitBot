@@ -60,7 +60,9 @@ twit.updateStatus('Starting Robo Waiter Twitter Bot \n\n'+date,function(){});
 
 process.on('SIGTERM', function() {
     var date = new Date();
-    twit.updateStatus('Shutting down Robo Waiter Twitter Bot \n\n'+date,function(){});
+    twit.updateStatus('Shutting down Robo Waiter Twitter Bot \n\n'+date,function(){
+        process.exit(code=0); 
+    });
 });
 
 /**
